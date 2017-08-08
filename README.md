@@ -3,6 +3,8 @@ Tired of paying a subscription service to access an API to resolve geoIP data? L
 
 Using bitwise and otherwise calculations of numbers 32 bits and higher in a 32-bit environment to calculate 32-bit IPv4 and 128-bit IPv6 network information.
 
+Both Wget and 7-Zip are also components to this project licensed separately in accordance with their attached documentation.
+
 Ping_Test:
 
 Monitor continuous ping statistics across a series of nodes.
@@ -21,9 +23,9 @@ GeoIP:
 
 TBA. This script will output geographical and other information for any given IP address by incrementing subnet length iteratively to recurse through possible network IDs/CIDR calculated by Network_Calc until finding a match in GeoLite2.
 
-GeoLite2:
+GeoLite2_Update.cmd:
 
-Download and extract the following 2 zip files to the GeoLite2 subdirectory:
+Will automatically download and extract the following 2 zip files to the GeoLite2 subdirectory:
 
 http://geolite.maxmind.com/download/geoip/database/GeoLite2-City-CSV.zip
 
