@@ -1,4 +1,6 @@
 # IP
+Tired of paying a subscription service to access an API to resolve geoIP data? Look no further! Resolving locally and maintaining your own database is easier than ever. This repo is everything IP: 32-bit/128-bit calculations, ping monitoring across multiple nodes, IPv4/IPv6 network calculations, geoip lookups.
+
 Using bitwise and otherwise calculations of numbers 32 bits and higher in a 32-bit environment to calculate 32-bit IPv4 and 128-bit IPv6 network information.
 
 Ping_Test:
