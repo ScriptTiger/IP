@@ -21,7 +21,7 @@ Note: The reverse IP address decimal conversion (/d /r) intentionally stays with
 
 GeoIP:
 
-TBA. This script will output geographical and other information for any given IP address by incrementing subnet length iteratively to recurse through possible network IDs/CIDR calculated by Network_Calc until finding a match in GeoLite2.
+TBA. This script will output geographical and other information for any given IP address by incrementing subnet length iteratively to recurse through possible network IDs/CIDR calculated by Network_Calc until finding a match in GeoLite2. Thanks to MaxMind, non-numerical data also has multilingual support.
 
 GeoLite2_Update.cmd:
 
