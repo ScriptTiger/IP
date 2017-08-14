@@ -1,5 +1,12 @@
 @echo off
 
+rem =====
+rem For more information on ScriptTiger and more ScriptTiger scripts visit the following URL:
+rem https://scripttiger.github.io/
+rem Or visit the following URL for the latest information on this ScriptTiger script:
+rem https://github.com/ScriptTiger/IP
+rem =====
+
 set CURL=http://geolite.maxmind.com/download/geoip/database/GeoLite2-City-CSV.zip
 set AURL=http://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip
 set PREFIX=%~dps0

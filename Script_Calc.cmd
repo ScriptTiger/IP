@@ -1,4 +1,12 @@
 @echo off
+
+rem =====
+rem For more information on ScriptTiger and more ScriptTiger scripts visit the following URL:
+rem https://scripttiger.github.io/
+rem Or visit the following URL for the latest information on this ScriptTiger script:
+rem https://github.com/ScriptTiger/IP
+rem =====
+
 setlocal ENABLEDELAYEDEXPANSION
 set bdat=C:\Users\user\Desktop\scripts\logs\bits.dat
 set label=%1
