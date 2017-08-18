@@ -35,3 +35,6 @@ The GeoLite2 databases are distributed under the Creative Commons Attribution-Sh
 
 These scripts reference using GeoLite2 data created by MaxMind, available from:
 http://www.maxmind.com
+
+You can download this repo from the below link to get started:  
+https://github.com/ScriptTiger/IP/archive/master.zip
