@@ -33,6 +33,9 @@ http://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip
 
 The GeoLite2 databases are distributed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 
+If you would like to show your support for ScriptTiger, check out the Patreon page to find out how:  
+https://www.patreon.com/ScriptTiger
+
 These scripts reference using GeoLite2 data created by MaxMind, available from:
 http://www.maxmind.com
 
