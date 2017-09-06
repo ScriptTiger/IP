@@ -23,7 +23,7 @@ set /p IP=IP:
 :GeoIP
 for /l %%0 in (32,-1,0) do (
 	for /f %%a in ('%NETCALC% /id %IP%/%%0') do set NETWORK=%%a
-	call :Find !NETWORK! "%CITY4%" ASN
+	call :Find !NETWORK! "%CITY4%" GeoIP ASN
 )
 
 echo No GeoIP Data found for this Public IP
@@ -31,15 +31,23 @@ echo No GeoIP Data found for this Public IP
 :ASN
 for /l %%0 in (32,-1,0) do (
 	for /f %%a in ('%NETCALC% /id %IP%/%%0') do set NETWORK=%%a
-	call :Find !NETWORK! "%ASN4%" Exit
+	call :Find !NETWORK! "%ASN4%" ASN Exit
 )
 echo No ASN Data found for this Public IP
 goto Exit
 
 :Find
-findstr "^%~1" "%~2" && goto %~3
+(for /f "tokens=*" %%a in ('findstr "^%~1" "%~2"') do set %~3=%%a) && goto %~4
 exit /b
 
 :Exit
+for /f "tokens=2 delims=," %%a in ('echo !GeoIP!') do set CITY=%%a
+for /f "tokens=3 delims=," %%a in ('echo !GeoIP!') do set COUNTRY=%%a
+for /f "tokens=2* delims=," %%a in ('echo !ASN!') do set ASN=%%~b
+for /f "tokens=*" %%a in ('findstr "^%CITY%" "%LANG%"') do set CITY=%%a
+for /f "tokens=*" %%a in ('findstr "^%COUNTRY%" "%LANG%"') do set COUNTRY=%%a
+echo City Data:	!CITY!
+echo Country Data:	!COUNTRY!
+echo ASN Data:	!ASN!
 pause
 exit
