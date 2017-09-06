@@ -14,12 +14,21 @@ rem Environmental setup
 rem =====
 
 setlocal ENABLEDELAYEDEXPANSION
+
+rem set ADAPTER variable here to your primary network adapter (ie: Ethernet 2, Wireless Network Connection 6, etc.)
+set ADAPTER=
+
+if "%ADAPTER%"=="" (
+	echo Please set the ADAPTER variable in the script before continuing.
+	pause
+	exit
+)
 set Count=1
 for /f "tokens=3" %%0 in (
-	'netsh interface ip show config "Ethernet 2" ^| findstr "IP Address:"'
+	'netsh interface ip show config "%ADAPTER%" ^| findstr "IP Address:"'
 ) do set IP=%%0
 for /f "tokens=3" %%0 in (
-	'netsh interface ip show config "Ethernet 2" ^| findstr "Default Gateway:"'
+	'netsh interface ip show config "%ADAPTER%" ^| findstr "Default Gateway:"'
 ) do set GATEWAY=%%0
 
 rem =====

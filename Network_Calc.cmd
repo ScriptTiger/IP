@@ -9,6 +9,8 @@ rem =====
 
 setlocal ENABLEDELAYEDEXPANSION
 
+set CALC=%~dp0Script_Calc.cmd
+
 rem =====
 rem Parameters for Help
 rem =====
@@ -35,7 +37,7 @@ rem =====
 if "%1"=="/d" (
 	call :StrToDec STR %2 %3
 	if "!STR!"=="0x80000000" set STR=-2147483648
-	if not "%2"=="/r" for /f %%0 in ('script_calc /32bit !STR!') do set STR=%%0
+	if not "%2"=="/r" for /f %%0 in ('!CALC! /32bit !STR!') do set STR=%%0
 	echo !STR!
 	exit /b
 )
@@ -87,7 +89,7 @@ for /f "tokens=1,2 delims=/ " %%0 in ("%1 %2") do (
 	)
 	call :OR BCAST %%0 !RMASK!
 	call :StrToDec DIP %%0
-	for /f %%a in ('script_calc /32bit !DIP!') do set DIP=%%a
+	for /f %%a in ('!CALC! /32bit !DIP!') do set DIP=%%a
 	call :StrToDec HOSTS !RMASK!
 	if !HOSTS! leq 1 (
 		set /a HOSTS=!HOSTS!+1
