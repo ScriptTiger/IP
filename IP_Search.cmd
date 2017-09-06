@@ -20,15 +20,24 @@ set NETCALC=%~dp0Network_Calc.cmd
 
 set /p IP=IP: 
 
+:GeoIP
 for /l %%0 in (32,-1,0) do (
 	for /f %%a in ('%NETCALC% /id %IP%/%%0') do set NETWORK=%%a
-	call :Find !NETWORK!
+	call :Find !NETWORK! "%CITY4%" ASN
 )
-echo Unregistered Public IP
+
+echo No GeoIP Data found for this Public IP
+
+:ASN
+for /l %%0 in (32,-1,0) do (
+	for /f %%a in ('%NETCALC% /id %IP%/%%0') do set NETWORK=%%a
+	call :Find !NETWORK! "%ASN4%" Exit
+)
+echo No ASN Data found for this Public IP
 goto Exit
 
 :Find
-findstr "^%1" "%CITY4%" && goto Exit
+findstr "^%~1" "%~2" && goto %~3
 exit /b
 
 :Exit
