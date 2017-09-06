@@ -19,9 +19,9 @@ Currently only calculates IPv4. Since IPv4 addresses take up exactly 32 bits, th
 
 Note: The reverse IP address decimal conversion (/d /r) intentionally stays within 32-bit limitations to be able to convert to various executable output that stores data as a reverse 32-bit number (i.e. NirSoft/Nir Sofer INI files). The forward decimal conversion is usefule for various lookup tables that list networks in decimal (i.e. GeoLite2's optional decimal format).
 
-GeoIP:
+IP_Search:
 
-TBA. This script will output geographical and other information for any given IP address by incrementing subnet length iteratively to recurse through possible network IDs/CIDR calculated by Network_Calc until finding a match in GeoLite2. Thanks to MaxMind, non-numerical data also has multilingual support.
+This script is currently a work in progress and currently only supports searching IPv4 addresses in interactive mode. The concept for this script is to output geographical and other information for any given IP address by incrementing subnet length iteratively to recurse through possible network IDs/CIDR calculated by Network_Calc until finding a match in GeoLite2. Thanks to MaxMind, non-numerical data also has multilingual support.
 
 GeoLite2_Update.cmd:
 
