@@ -21,7 +21,9 @@ Note: The reverse IP address decimal conversion (/d /r) intentionally stays with
 
 IP_Search:
 
-This script is currently a work in progress and currently only supports searching IPv4 addresses in interactive mode. The concept for this script is to output geographical and other information for any given IP address by incrementing subnet length iteratively to recurse through possible network IDs/CIDR calculated by Network_Calc until finding a match in GeoLite2. Thanks to MaxMind, non-numerical data also has multilingual support.
+Currently only supports searching IPv4 addresses. Thanks to MaxMind, non-numerical data has multilingual support! You can also use this script both interactively and scripted. For scripted searches, just send the language and IP to search for to the script like this:  
+IP_Search.cmd en 8.8.8.8  
+The above command will search for 8.8.8.8 (Google DNS) and output the results in English.
 
 GeoLite2_Update.cmd:
 
