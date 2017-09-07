@@ -80,5 +80,5 @@ if %INTERACTIVE%==1 pause
 exit /b
 
 :Find
-for /f "tokens=*" %%a in ('findstr /b "%~1" "%~2"') do set %~3=%%a
+for /f "tokens=*" %%a in ('findstr /b "%~1," "%~2"') do set %~3=%%a
 exit /b
