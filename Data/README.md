@@ -1,5 +1,5 @@
-# GeoLite2
-All the GeoLite2 CSVs should be extracted here, with no subdirectories beyond this point.
+# IP Data Files
+All the GeoLite2 CSV and Tor exit-addresses files should be placed here, with no subdirectories beyond this point.
 
 The GeoLite2 databases are distributed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 
