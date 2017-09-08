@@ -24,6 +24,15 @@ IP_Search:
 Currently only supports searching IPv4 addresses. Thanks to MaxMind, non-numerical data has multilingual support! You can also use this script both interactively and scripted. For scripted searches, just send the language and IP to search for to the script like this:  
 IP_Search.cmd en 8.8.8.8  
 The above command will search for 8.8.8.8 (Google DNS) and output the results in English.
+Language options are as follows:  
+de  
+en  
+es  
+fr  
+ja  
+pt-BR  
+ru  
+zh-CN
 
 GeoLite2_Update.cmd:
 

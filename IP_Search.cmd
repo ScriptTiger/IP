@@ -52,7 +52,8 @@ rem =====
 rem Set IP to search for
 rem =====
 
-if "%~2"=="" (set /p IP=IP: ) else (
+:IP
+if "%~2"=="" (set /p IP=IP: || exit /b) else (
 	set IP=%~2
 	set INTERACTIVE=0
 )
@@ -114,6 +115,7 @@ rem Pause before exiting if in interactive mode
 if %INTERACTIVE%==1 (
 	choice /m "Would you like to open the location in Google Maps now?"
 	if !errorlevel!==1 explorer "!URL!"
+	goto IP
 )
 
 exit /b

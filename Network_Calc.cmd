@@ -111,6 +111,7 @@ for /f "tokens=1,2 delims=/ " %%0 in ("%1 %2") do (
 	echo !ID!/!CIDR! - !BCAST!
 	echo !START! - !END! ^(!HOSTS! usable IPs^)
 )
+pause
 exit /b
 
 rem =====
