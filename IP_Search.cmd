@@ -88,11 +88,11 @@ if not "!CITY!"=="" (
 	set CITY=!CITY:,,=, ,!
 	for /f "tokens=2,8,9 delims=," %%a in ('echo !CITY!') do (
 		set CITY=%%a
-		set LATLONG=%%b,%%c
+		set URL=https://www.google.com/maps/@%%b,%%c,6z
 	)
 	for /f "tokens=2* delims=," %%a in ('findstr /b "!CITY!" "%LANG%"') do set CITY=%%b
 	echo City:		!CITY!
-	echo Google Maps:	https://www.google.com/maps/@!LATLONG!,6z
+	echo Google Maps:	!URL!
 ) else echo No City Data found for this Public IP
 
 rem =====
@@ -109,7 +109,10 @@ if not "!ASN!"=="" (
 ) else echo No ASN Data found for this Public IP
 
 rem Pause before exiting if in interactive mode
-if %INTERACTIVE%==1 pause
+if %INTERACTIVE%==1 (
+	choice /m "Would you like to open the location in Google Maps now?"
+	if !errorlevel!==1 explorer "!URL!"
+)
 
 exit /b
 
