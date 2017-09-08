@@ -86,13 +86,15 @@ rem =====
 
 if not "!CITY!"=="" (
 	set CITY=!CITY:,,=, ,!
-	for /f "tokens=2,8,9 delims=," %%a in ('echo !CITY!') do (
+	for /f "tokens=2,8,9,10 delims=," %%a in ('echo !CITY!') do (
 		set CITY=%%a
 		set URL=https://www.google.com/maps/@%%b,%%c,6z
+		set ACCURACY=%%d km
 	)
 	for /f "tokens=2* delims=," %%a in ('findstr /b "!CITY!" "%LANG%"') do set CITY=%%b
 	echo City:		!CITY!
 	echo Google Maps:	!URL!
+	echo Accuracy:	!ACCURACY!
 ) else echo No City Data found for this Public IP
 
 rem =====
