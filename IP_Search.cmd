@@ -85,9 +85,14 @@ rem Display matching city data
 rem =====
 
 if not "!CITY!"=="" (
-	for /f "tokens=2 delims=," %%a in ('echo !CITY!') do set CITY=%%a
+	set CITY=!CITY:,,=, ,!
+	for /f "tokens=2,8,9 delims=," %%a in ('echo !CITY!') do (
+		set CITY=%%a
+		set LATLONG=%%b,%%c
+	)
 	for /f "tokens=2* delims=," %%a in ('findstr /b "!CITY!" "%LANG%"') do set CITY=%%b
-	echo City:	!CITY!
+	echo City:		!CITY!
+	echo Google Maps:	https://www.google.com/maps/@!LATLONG!,6z
 ) else echo No City Data found for this Public IP
 
 rem =====
@@ -99,8 +104,8 @@ if not "!ASN!"=="" (
 		set ASN=%%a
 		set ISP=%%~b
 	)
-	echo ASN:	!ASN!
-	echo ISP:	!ISP!
+	echo ASN:		!ASN!
+	echo ISP:		!ISP!
 ) else echo No ASN Data found for this Public IP
 
 rem Pause before exiting if in interactive mode
