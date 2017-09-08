@@ -27,7 +27,8 @@ fr
 ja  
 pt-BR  
 ru  
-zh-CN
+zh-CN  
+Because GeoLite2 is the free product from MaxMind, the accuracy is obviously not going to be as good as the paid product, and neither are 100%. The only thing this search script CAN do with nearly 100% accuracy, assuming you have just recently run the Data_Update.cmd, is detect Tor nodes, as the Tor exit node list is provided directly from the Tor Project and is separate from the MaxMind data.
 
 Data_Update.cmd:  
 Will automatically download the latest GeoLite2 and Tor exit node list to the Data subdirectory:  
