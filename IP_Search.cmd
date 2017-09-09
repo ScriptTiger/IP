@@ -100,17 +100,19 @@ set URL=
 set ACCURACY=
 if not "!CITY!"=="" (
 	set CITY=!CITY:,,=, ,!
-	for /f "tokens=2,3,5,7,8,9,10 delims=," %%0 in ('echo !CITY!') do (
-		set CITY=%%0
-		set COUNTRY=%%1
-		set PROXY=%%2
-		set POST=%%3
-		if not "%%4"=="" if not "%%5"=="" set URL=https://www.google.com/maps/@%%4,%%5,6z
-		if not "%%6"=="" set ACCURACY=%%6 km
+	for /f "tokens=1,2,3,5,7,8,9,10 delims=," %%0 in ('echo !CITY!') do (
+		set CITYNET=%%0
+		set CITY=%%1
+		set COUNTRY=%%2
+		set PROXY=%%3
+		set POST=%%4
+		if not "%%5"=="" if not "%%6"=="" set URL=https://www.google.com/maps/@%%5,%%6,6z
+		if not "%%7"=="" set ACCURACY=%%7 km
 	)
 	if not "!CITY!"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "!CITY!" "%LANG%"') do set CITY=%%b
 	if not "!COUNTRY!"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "!COUNTRY!" "%LANG%"') do set COUNTRY=%%b
 	if "!PROXY!"=="0" (set PROXY=No) else set PROXY=Yes
+	echo City Network:	!CITYNET!
 	echo City:		!CITY!
 	echo Post Code:	!POST!
 	echo Country:	!COUNTRY!
@@ -125,10 +127,12 @@ rem =====
 
 set ISP=
 if not "!ASN!"=="" (
-	for /f "tokens=2* delims=," %%a in ('echo !ASN!') do (
-		set ASN=%%a
-		set ISP=%%~b
+	for /f "tokens=1,2* delims=," %%0 in ('echo !ASN!') do (
+		set ASNNET=%%0
+		set ASN=%%1
+		set ISP=%%~2
 	)
+	echo ASN Network:	!ASNNET!
 	echo ASN:		!ASN!
 	echo ISP:		!ISP!
 ) else echo No ASN Data found for this Public IP
