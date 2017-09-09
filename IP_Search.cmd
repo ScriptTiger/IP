@@ -114,7 +114,7 @@ if not "!CITY!"=="" (
 	echo City:		!CITY!
 	echo Post Code:	!POST!
 	echo Country:	!COUNTRY!
-	echo Proxy:		!PROXY!
+	echo Known Proxy:	!PROXY!
 	echo Google Maps:	!URL!
 	echo Accuracy:	!ACCURACY!
 ) else echo No City Data found for this Public IP
@@ -137,7 +137,7 @@ rem =====
 rem Display Matching Tor data
 rem =====
 
-echo Tor Node:	!TOR!
+echo Known Tor Exit:	!TOR!
 
 rem Pause before exiting if in interactive mode
 if %INTERACTIVE%==1 (
