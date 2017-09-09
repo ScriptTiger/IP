@@ -13,7 +13,7 @@ Can calculate and convert numbers 32 bits and higher from a 32-bit environment.
 
 Network_Calc:  
 Currently only calculates IPv4. Since IPv4 addresses take up exactly 32 bits, this script requires Script_Calc to accurately calculate the decimal conversion of an IP address because 32-bit environments are limited to only calculate 31-bit numbers because the 32nd bit is used for sign control in designating if a number is positive or negative. The decimal conversion is included in this script for the sole purpose of letting you know what it is, while all other calcluations are bitwise and don't require a decimal conversion. Once IPv6 is also included, Script_Calc will be required for all IPv6 calculations.  
-Note: The reverse IP address decimal conversion (/d /r) intentionally stays within 32-bit limitations to be able to convert to various executable output that stores data as a reverse 32-bit number (i.e. NirSoft/Nir Sofer INI files). The forward decimal conversion is usefule for various lookup tables that list networks in decimal (i.e. GeoLite2's optional decimal format).
+Note: The reverse IP address decimal conversion (/d /r) intentionally stays within 32-bit limitations to be able to convert to various executable output that stores data as a reverse 32-bit number (i.e. NirSoft/Nir Sofer INI files). The forward decimal conversion is useful for various lookup tables that list networks in decimal (i.e. GeoLite2's optional decimal format).
 
 IP_Search:  
 Currently only supports searching IPv4 addresses. Thanks to MaxMind, non-numerical data has multilingual support! You can also use this script both interactively and scripted. For scripted searches, just send the language and IP to search for to the script like this:  
