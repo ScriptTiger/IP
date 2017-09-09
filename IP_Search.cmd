@@ -72,78 +72,30 @@ rem =====
 rem Search city data for any of the possible networks
 rem =====
 
-set CITY=
+echo ----- City Data -----
 call :Find "%FINDSTR%" "%CITY4%" CITY
 
 rem =====
 rem Search ASN data for any of the possible networks
 rem =====
 
-set ASN=
+echo ----- ASN Data -----
 call :Find "%FINDSTR%" "%ASN4%" ASN
 
 rem =====
 rem Search Tor exit nodes to see if the IP is listed
 rem =====
 
+echo ----- Other Data -----
 set TOR=No
 for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP%" "%TOR4%"') do set TOR=Yes
 
-rem =====
-rem Display matching city data
-rem =====
-
-set COUNTRY=
-set PROXY=
-set POST=
-set URL=
-set ACCURACY=
-if not "!CITY!"=="" (
-	set CITY=!CITY:,,=, ,!
-	for /f "tokens=1,2,3,5,7,8,9,10 delims=," %%0 in ('echo !CITY!') do (
-		set CITYNET=%%0
-		set CITY=%%1
-		set COUNTRY=%%2
-		set PROXY=%%3
-		set POST=%%4
-		if not "%%5"=="" if not "%%6"=="" set URL=https://www.google.com/maps/@%%5,%%6,6z
-		if not "%%7"=="" set ACCURACY=%%7 km
-	)
-	if not "!CITY!"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "!CITY!" "%LANG%"') do set CITY=%%b
-	if not "!COUNTRY!"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "!COUNTRY!" "%LANG%"') do set COUNTRY=%%b
-	if "!PROXY!"=="0" (set PROXY=No) else set PROXY=Yes
-	echo City Network:	!CITYNET!
-	echo City:		!CITY!
-	echo Post Code:	!POST!
-	echo Country:	!COUNTRY!
-	echo Known Proxy:	!PROXY!
-	echo Google Maps:	!URL!
-	echo Accuracy:	!ACCURACY!
-) else echo No City Data found for this Public IP
-
-rem =====
-rem Display matching ASN data
-rem =====
-
-set ISP=
-if not "!ASN!"=="" (
-	for /f "tokens=1,2* delims=," %%0 in ('echo !ASN!') do (
-		set ASNNET=%%0
-		set ASN=%%1
-		set ISP=%%~2
-	)
-	echo ASN Network:	!ASNNET!
-	echo ASN:		!ASN!
-	echo ISP:		!ISP!
-) else echo No ASN Data found for this Public IP
-
-rem =====
-rem Display Matching Tor data
-rem =====
-
 echo Known Tor Exit:	!TOR!
 
-rem Pause before exiting if in interactive mode
+rem =====
+rem Prompt for a new IP if in interactive mode, otherwise exit
+rem =====
+
 if %INTERACTIVE%==1 (
 	if not "!URL!"=="" (
 		choice /m "Would you like to open the location in Google Maps now?"
@@ -155,9 +107,80 @@ if %INTERACTIVE%==1 (
 exit /b
 
 rem =====
-rem Function for searching MaxMind data for entries matching any of the possible networks
+rem Functions
+rem =====
+
+rem =====
+rem Search MaxMind data for entries matching any of the possible networks and call display functions for each match
 rem =====
 
 :Find
-for /f "tokens=*" %%0 in ('findstr /b /l "%~1" "%~2"') do set %~3=%%0
+for /f "tokens=*" %%0 in ('findstr /b /l "%~1" "%~2"') do call :%3 %%0
+exit /b
+
+rem =====
+rem Display matching city data
+rem =====
+
+:City
+set CITY=
+set URL=
+if not "%*"=="" (
+	set CITY=%*
+	set CITY=!CITY:,,=, ,!
+	for /f "tokens=1,2,3,5,7,8,9,10 delims=," %%0 in ('echo !CITY!') do (
+		echo City Network:	%%0
+		if not "%%1"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "%%1" "%LANG%"') do echo City:		%%b
+		if not "%%2"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "%%2" "%LANG%"') do echo Country:	%%b
+		if "%%3"=="0" (echo Known Proxy:	No) else echo Known Proxy:	Yes
+		if not "%%4"==" " echo Post Code:	%%4
+		if not "%%5"=="" if not "%%6"=="" (
+			set URL=https://www.google.com/maps/@%%5,%%6,6z
+			echo Google Maps:	!URL!
+		)
+		if not "%%7"=="" echo Accuracy:	%%7 km
+		echo.
+	)
+)
+exit /b
+
+rem =====
+rem Display matching ASN data
+rem =====
+
+:ASN
+call :Swap %*
+if not "!DATA!"=="" (
+	for /f "tokens=1,2* delims=," %%0 in ('echo !DATA!') do (
+		call :Unswap %%0
+		echo ASN Network:	!DATA!
+		call :Unswap %%1
+		echo ASN:		!DATA!
+		call :Unswap %%2
+		echo ISP:		!DATA!
+		echo.
+	)
+)
+exit /b
+
+rem =====
+rem Swap problem characters
+rem =====
+
+:Swap
+set DATA=%*
+set DATA=!DATA:^"=DoubleQuote!
+set DATA=!DATA:^(=OpenParantheses!
+set DATA=!DATA:^)=CloseParantheses!
+exit /b
+
+rem =====
+rem Unswap problem characters
+rem =====
+
+:Unswap
+set DATA=%*
+set DATA=!DATA:DoubleQuote=^"!
+set DATA=!DATA:OpenParantheses=^(!
+set DATA=!DATA:CloseParantheses=^)!
 exit /b
