@@ -89,11 +89,10 @@ rem =====
 echo ----- Other Data -----
 set TOR=No
 for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP%" "%TOR4%"') do set TOR=Yes
-
 echo Known Tor Exit:	!TOR!
 
 rem =====
-rem Prompt for a new IP if in interactive mode, otherwise exit
+rem Offer to open Google Maps locaction and prompt for a new IP if in interactive mode, otherwise exit
 rem =====
 
 if %INTERACTIVE%==1 (
