@@ -125,15 +125,16 @@ rem =====
 :City
 set CITY=
 set URL=
-if not "%*"=="" (
-	set CITY=%*
-	set CITY=!CITY:,,=, ,!
-	for /f "tokens=1,2,3,5,7,8,9,10 delims=," %%0 in ('echo !CITY!') do (
+call :Swap %*
+if not "!DATA!"=="" (
+	set DATA=%*
+	set DATA=!DATA:,,=, ,!
+	for /f "tokens=1,2,3,5,7,8,9,10 delims=," %%0 in ('echo !DATA!') do (
 		echo City Network:	%%0
 		if not "%%1"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "%%1" "%LANG%"') do echo City:		%%b
 		if not "%%2"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "%%2" "%LANG%"') do echo Country:	%%b
 		if "%%3"=="0" (echo Known Proxy:	No) else echo Known Proxy:	Yes
-		if not "%%4"==" " echo Post Code:	%%4
+		if not "%%4"==" " echo Post Code:	%%~4
 		if not "%%5"=="" if not "%%6"=="" (
 			set URL=https://www.google.com/maps/@%%5,%%6,6z
 			echo Google Maps:	!URL!
@@ -151,11 +152,12 @@ rem =====
 :ASN
 call :Swap %*
 if not "!DATA!"=="" (
+	set DATA=%*
+	set DATA=!DATA:,,=, ,!
 	for /f "tokens=1,2* delims=," %%0 in ('echo !DATA!') do (
 		echo ASN Network:	%%0
 		echo ASN:		%%1
-		call :Unswap %%2
-		echo ISP:		!DATA!
+		echo ISP:		%%~2
 		echo.
 	)
 )
@@ -170,15 +172,4 @@ set DATA=%*
 set DATA=!DATA:^"=DoubleQuote!
 set DATA=!DATA:^(=OpenParantheses!
 set DATA=!DATA:^)=CloseParantheses!
-exit /b
-
-rem =====
-rem Unswap problem characters
-rem =====
-
-:Unswap
-set DATA=%*
-set DATA=!DATA:DoubleQuote=^"!
-set DATA=!DATA:OpenParantheses=^(!
-set DATA=!DATA:CloseParantheses=^)!
 exit /b
