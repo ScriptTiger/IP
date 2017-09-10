@@ -90,6 +90,7 @@ echo ----- Other Data -----
 set TOR=No
 for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP%" "%TOR4%"') do set TOR=Yes
 echo Known Tor Exit:	!TOR!
+echo.
 
 rem =====
 rem Offer to open Google Maps locaction and prompt for a new IP if in interactive mode, otherwise exit
@@ -151,10 +152,8 @@ rem =====
 call :Swap %*
 if not "!DATA!"=="" (
 	for /f "tokens=1,2* delims=," %%0 in ('echo !DATA!') do (
-		call :Unswap %%0
-		echo ASN Network:	!DATA!
-		call :Unswap %%1
-		echo ASN:		!DATA!
+		echo ASN Network:	%%0
+		echo ASN:		%%1
 		call :Unswap %%2
 		echo ISP:		!DATA!
 		echo.
