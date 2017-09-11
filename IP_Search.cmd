@@ -89,7 +89,7 @@ rem =====
 echo ----- Other Data -----
 set TOR=No
 for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP%" "%TOR4%"') do set TOR=Yes
-echo Known Tor Exit:	!TOR!
+echo Known Tor Exit:		!TOR!
 echo.
 
 rem =====
@@ -129,17 +129,17 @@ rem =====
 set URL=
 if not "%*"=="" (
 	for /f "tokens=1,2,3,4,5,7,8,9,10 delims={}" %%0 in ('echo %*') do (
-		echo WAN:			%%~0
-		if not "%%~1"=="NULL" call :Resolve_City %%~1
-		if not "%%~2"=="NULL" call :Resolve_Country %%~2 Registered
-		if not "%%~3"=="NULL" call :Resolve_Country %%~3 Represented
-		if "%%~4"=="0" (echo Known Proxy:		No) else echo Known Proxy:		Yes
-		if not "%%~5"=="NULL" echo Post Code:		%%~5
-		if not "%%~6"=="NULL" if not "%%~7"=="NULL" (
+		call :Display "WAN:			" "%%~0"
+		if not "%%~1"=="\Null" call :Resolve_City %%~1
+		if not "%%~2"=="\Null" call :Resolve_Country %%~2 Registered
+		if not "%%~3"=="\Null" call :Resolve_Country %%~3 Represented
+		if "%%~4"=="0" (call :Display "Known Proxy:		" "No") else call :Display "Known Proxy:		" "Yes"
+		call :Display "Post Code:		" "%%~5"
+		if not "%%~6"=="\Null" if not "%%~7"=="\Null" (
 			set URL=https://www.google.com/maps/@%%~6,%%~7,6z
-			echo Google Maps:		!URL!
+			call :Display "Google Maps:		" "!URL!"
 		)
-		if not "%%~8"=="" echo Accuracy:		%%~8 km
+		if not "%%~8"=="" call :Display "Accuracy:		" "%%~8 km"
 		echo.
 	)
 )
@@ -153,13 +153,13 @@ rem =====
 for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
 	call :Format_String %%b
 	for /f "tokens=1,3,5,7,8,9,10 delims={}" %%0 in ('echo !DATA!') do (
-		if not "%%~0"=="NULL" echo Continent:		%%~0
-		if not "%%~1"=="NULL" echo Country:		%%~1
-		if not "%%~2"=="NULL" echo Subdivisin 1:		%%~2
-		if not "%%~3"=="NULL" echo Subdivisin 2:		%%~3
-		if not "%%~4"=="NULL" echo City:			%%~4
-		if not "%%~5"=="NULL" echo Metro Code:		%%~5
-		if not "%%~6"=="" echo Time Zone:		%%~6
+		call :Display "Continent:		" "%%~0"
+		call :Display "Country:		" "%%~1"
+		call :Display "Subdivisin 1:		" "%%~2"
+		call :Display "Subdivisin 2:		" "%%~3"
+		call :Display "City:			" "%%~4"
+		call :Display "Metro Code:		" "%%~5"
+		call :Display "Time Zone:		" "%%~6"
 	)
 )
 exit /b
@@ -173,8 +173,8 @@ for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
 	call :Format_String %%b
 	for /f "tokens=1,3,10 delims={}" %%0 in ('echo !DATA!') do (
 		set DATA=%%~1, %%~0
-		if not "%%~2"=="" set DATA=!DATA! ^(%%~2^)
-		echo %~2 Country:	!DATA!
+		if not "%%~2"=="" set DATA=!DATA! \OpenParantheses%%~2\CloseParantheses
+		call :Display "%~2 Country:	" "!DATA!"
 	)
 )
 exit /b
@@ -186,9 +186,9 @@ rem =====
 :ASN
 if not "%*"=="" (
 	for /f "tokens=1,2,3 delims={}" %%0 in ('echo %*') do (
-		echo ASN Network:		%%~0
-		echo ASN:			%%~1
-		echo ISP:			%%~2
+		call :Display "ASN Network:		" "%%~0"
+		call :Display "ASN:			" "%%~1"
+		call :Display "ISP:			" "%%~2"
 		echo.
 	)
 )
@@ -201,10 +201,10 @@ rem =====
 :Format_String
 set DATA=
 set STRING=%*
-set STRING=!STRING:,,=,NULL,!
-set STRING=!STRING:,,=,NULL,!
-set STRING=!STRING:,,=,NULL,!
-set STRING=!STRING:^&=+!
+set STRING=!STRING:,,=,\Null,!
+set STRING=!STRING:,,=,\Null,!
+set STRING=!STRING:,,=,\Null,!
+set STRING=!STRING:^&=\Ampersand!
 call :Format_SubStrings !STRING!
 exit /b
 
@@ -214,12 +214,28 @@ if "%~1"=="" (
 	exit /b
 )
 set STRING=%~1
-set STRING=!STRING:^"^"=^"!
-set STRING=!STRING:^"^"=^"!
-set STRING=!STRING:^"^"=^"!
-set STRING=!STRING:^,=^^,!
-set STRING=!STRING:^(=^^(!
-set STRING=!STRING:^)=^^)!
+set STRING=!STRING:^"^"=\DoubleQuote!
+set STRING=!STRING:^"^"=\DoubleQuote!
+set STRING=!STRING:^"^"=\DoubleQuote!
+set STRING=!STRING:^,=\Comma!
+set STRING=!STRING:^(=\OpenParantheses!
+set STRING=!STRING:^)=\CloseParantheses!
 set DATA=!DATA!{!STRING!}
 shift
 goto Format_SubStrings
+
+rem =====
+rem Reinterpret punctuation and display data
+rem =====
+
+:Display
+if not "%~2"=="" if not "%~2"=="\Null" (
+	set DATA=%~2
+	set DATA=!DATA:\Ampersand=^&!
+	set DATA=!DATA:\DoubleQuote=^"!
+	set DATA=!DATA:\Comma=^,!
+	set DATA=!DATA:\OpenParantheses=^(!
+	set DATA=!DATA:\CloseParantheses=^)!
+	echo %~1!DATA!
+)
+exit /b
