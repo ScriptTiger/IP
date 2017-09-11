@@ -130,12 +130,12 @@ set URL=
 if not "%*"=="" (
 	for /f "tokens=1,2,3,4,5,7,8,9,10 delims={}" %%0 in ('echo %*') do (
 		call :Display "WAN:			" "%%~0"
-		if not "%%~1"=="\Null" call :Resolve_City %%~1
-		if not "%%~2"=="\Null" call :Resolve_Country %%~2 Registered
-		if not "%%~3"=="\Null" call :Resolve_Country %%~3 Represented
+		if not "%%~1"=="\Null\" call :Resolve_City %%~1
+		if not "%%~2"=="\Null\" call :Resolve_Country %%~2 Registered
+		if not "%%~3"=="\Null\" call :Resolve_Country %%~3 Represented
 		if "%%~4"=="0" (call :Display "Known Proxy:		" "No") else call :Display "Known Proxy:		" "Yes"
 		call :Display "Post Code:		" "%%~5"
-		if not "%%~6"=="\Null" if not "%%~7"=="\Null" (
+		if not "%%~6"=="\Null\" if not "%%~7"=="\Null\" (
 			set URL=https://www.google.com/maps/@%%~6,%%~7,6z
 			call :Display "Google Maps:		" "!URL!"
 		)
@@ -173,7 +173,7 @@ for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
 	call :Format_String %%b
 	for /f "tokens=1,3,10 delims={}" %%0 in ('echo !DATA!') do (
 		set DATA=%%~1, %%~0
-		if not "%%~2"=="" set DATA=!DATA! \OpenParantheses%%~2\CloseParantheses
+		if not "%%~2"=="" set DATA=!DATA! \OpenParantheses\%%~2\CloseParantheses\
 		call :Display "%~2 Country:	" "!DATA!"
 	)
 )
@@ -201,10 +201,10 @@ rem =====
 :Format_String
 set DATA=
 set STRING=%*
-set STRING=!STRING:,,=,\Null,!
-set STRING=!STRING:,,=,\Null,!
-set STRING=!STRING:,,=,\Null,!
-set STRING=!STRING:^&=\Ampersand!
+set STRING=!STRING:,,=,\Null\,!
+set STRING=!STRING:,,=,\Null\,!
+set STRING=!STRING:,,=,\Null\,!
+set STRING=!STRING:^&=\Ampersand\!
 call :Format_SubStrings !STRING!
 exit /b
 
@@ -214,12 +214,12 @@ if "%~1"=="" (
 	exit /b
 )
 set STRING=%~1
-set STRING=!STRING:^"^"=\DoubleQuote!
-set STRING=!STRING:^"^"=\DoubleQuote!
-set STRING=!STRING:^"^"=\DoubleQuote!
-set STRING=!STRING:^,=\Comma!
-set STRING=!STRING:^(=\OpenParantheses!
-set STRING=!STRING:^)=\CloseParantheses!
+set STRING=!STRING:^"^"=\DoubleQuote\!
+set STRING=!STRING:^"^"=\DoubleQuote\!
+set STRING=!STRING:^"^"=\DoubleQuote\!
+set STRING=!STRING:^,=\Comma\!
+set STRING=!STRING:^(=\OpenParantheses\!
+set STRING=!STRING:^)=\CloseParantheses\!
 set DATA=!DATA!{!STRING!}
 shift
 goto Format_SubStrings
@@ -229,13 +229,13 @@ rem Reinterpret punctuation and display data
 rem =====
 
 :Display
-if not "%~2"=="" if not "%~2"=="\Null" (
+if not "%~2"=="" if not "%~2"=="\Null\" (
 	set DATA=%~2
-	set DATA=!DATA:\Ampersand=^&!
-	set DATA=!DATA:\DoubleQuote=^"!
-	set DATA=!DATA:\Comma=^,!
-	set DATA=!DATA:\OpenParantheses=^(!
-	set DATA=!DATA:\CloseParantheses=^)!
+	set DATA=!DATA:\Ampersand\=^&!
+	set DATA=!DATA:\DoubleQuote\=^"!
+	set DATA=!DATA:\Comma\=^,!
+	set DATA=!DATA:\OpenParantheses\=^(!
+	set DATA=!DATA:\CloseParantheses\=^)!
 	echo %~1!DATA!
 )
 exit /b
