@@ -72,7 +72,7 @@ rem =====
 rem Search city data for any of the possible networks
 rem =====
 
-echo ----- City Data -----
+echo ----- WAN Data -----
 call :Find "%FINDSTR%" "%CITY4%" CITY
 
 rem =====
@@ -111,11 +111,14 @@ rem Functions
 rem =====
 
 rem =====
-rem Search MaxMind data for entries matching any of the possible networks and call display functions for each match
+rem Search MaxMind data for entries matching any of the possible networks, format the matching entries, and call display functions for each match
 rem =====
 
 :Find
-for /f "tokens=*" %%0 in ('findstr /b /l "%~1" "%~2"') do call :%3 %%0
+for /f "tokens=*" %%0 in ('findstr /b /l "%~1" "%~2"') do (
+	call :Format_String %%0
+	call :%3 !DATA!
+)
 exit /b
 
 rem =====
@@ -123,24 +126,55 @@ rem Display matching city data
 rem =====
 
 :City
-set CITY=
 set URL=
-call :Swap %*
-if not "!DATA!"=="" (
-	set DATA=%*
-	set DATA=!DATA:,,=, ,!
-	for /f "tokens=1,2,3,5,7,8,9,10 delims=," %%0 in ('echo !DATA!') do (
-		echo City Network:	%%0
-		if not "%%1"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "%%1" "%LANG%"') do echo City:		%%b
-		if not "%%2"==" " for /f "tokens=2* delims=," %%a in ('findstr /b "%%2" "%LANG%"') do echo Country:	%%b
-		if "%%3"=="0" (echo Known Proxy:	No) else echo Known Proxy:	Yes
-		if not "%%4"==" " echo Post Code:	%%~4
-		if not "%%5"=="" if not "%%6"=="" (
-			set URL=https://www.google.com/maps/@%%5,%%6,6z
-			echo Google Maps:	!URL!
+if not "%*"=="" (
+	for /f "tokens=1,2,3,4,5,7,8,9,10 delims={}" %%0 in ('echo %*') do (
+		echo WAN:			%%~0
+		if not "%%~1"=="NULL" call :Resolve_City %%~1
+		if not "%%~2"=="NULL" call :Resolve_Country %%~2 Registered
+		if not "%%~3"=="NULL" call :Resolve_Country %%~3 Represented
+		if "%%~4"=="0" (echo Known Proxy:		No) else echo Known Proxy:		Yes
+		if not "%%~5"=="NULL" echo Post Code:		%%~5
+		if not "%%~6"=="NULL" if not "%%~7"=="NULL" (
+			set URL=https://www.google.com/maps/@%%~6,%%~7,6z
+			echo Google Maps:		!URL!
 		)
-		if not "%%7"=="" echo Accuracy:	%%7 km
+		if not "%%~8"=="" echo Accuracy:		%%~8 km
 		echo.
+	)
+)
+exit /b
+
+rem =====
+rem Resolve and break down city strings
+rem =====
+
+:Resolve_City
+for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
+	call :Format_String %%b
+	for /f "tokens=1,3,5,7,8,9,10 delims={}" %%0 in ('echo !DATA!') do (
+		if not "%%~0"=="NULL" echo Continent:		%%~0
+		if not "%%~1"=="NULL" echo Country:		%%~1
+		if not "%%~2"=="NULL" echo Subdivisin 1:		%%~2
+		if not "%%~3"=="NULL" echo Subdivisin 2:		%%~3
+		if not "%%~4"=="NULL" echo City:			%%~4
+		if not "%%~5"=="NULL" echo Metro Code:		%%~5
+		if not "%%~6"=="" echo Time Zone:		%%~6
+	)
+)
+exit /b
+
+rem =====
+rem Resolve and break down country strings
+rem =====
+
+:Resolve_Country
+for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
+	call :Format_String %%b
+	for /f "tokens=1,3,10 delims={}" %%0 in ('echo !DATA!') do (
+		set DATA=%%~1, %%~0
+		if not "%%~2"=="" set DATA=!DATA! ^(%%~2^)
+		echo %~2 Country:	!DATA!
 	)
 )
 exit /b
@@ -150,26 +184,41 @@ rem Display matching ASN data
 rem =====
 
 :ASN
-call :Swap %*
-if not "!DATA!"=="" (
-	set DATA=%*
-	set DATA=!DATA:,,=, ,!
-	for /f "tokens=1,2* delims=," %%0 in ('echo !DATA!') do (
-		echo ASN Network:	%%0
-		echo ASN:		%%1
-		echo ISP:		%%~2
+if not "%*"=="" (
+	for /f "tokens=1,2,3 delims={}" %%0 in ('echo %*') do (
+		echo ASN Network:		%%~0
+		echo ASN:			%%~1
+		echo ISP:			%%~2
 		echo.
 	)
 )
 exit /b
 
 rem =====
-rem Swap problem characters
+rem Format data strings to prevent internal errors and improve data display
 rem =====
 
-:Swap
-set DATA=%*
-set DATA=!DATA:^"=DoubleQuote!
-set DATA=!DATA:^(=OpenParantheses!
-set DATA=!DATA:^)=CloseParantheses!
+:Format_String
+set DATA=
+set STRING=%*
+set STRING=!STRING:,,=,NULL,!
+set STRING=!STRING:,,=,NULL,!
+set STRING=!STRING:,,=,NULL,!
+call :Format_SubStrings !STRING!
 exit /b
+
+:Format_SubStrings
+if "%~1"=="" (
+	set STRING=
+	exit /b
+)
+set STRING=%~1
+set STRING=!STRING:^"^"=^"!
+set STRING=!STRING:^"^"=^"!
+set STRING=!STRING:^"^"=^"!
+set STRING=!STRING:^,=^^,!
+set STRING=!STRING:^(=^^(!
+set STRING=!STRING:^)=^^)!
+set DATA=!DATA!{!STRING!}
+shift
+goto Format_SubStrings
