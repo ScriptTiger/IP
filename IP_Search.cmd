@@ -204,6 +204,7 @@ set STRING=%*
 set STRING=!STRING:,,=,NULL,!
 set STRING=!STRING:,,=,NULL,!
 set STRING=!STRING:,,=,NULL,!
+set STRING=!STRING:^&=+!
 call :Format_SubStrings !STRING!
 exit /b
 
