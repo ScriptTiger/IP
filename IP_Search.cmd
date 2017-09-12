@@ -266,7 +266,9 @@ echo City:			City in which the target IP resides
 echo Metro Code:		Metro code to the target IP's surrounding area
 echo Time Zone:		Time zone of the target IP's surrounding area
 echo Registered Country:	Country to which the target IP is registered
+echo				Displayed as: Country, Continent (Time zone)
 echo Represented Country:	Foreign national representation possessing the IP
+echo				Displayed as: Country, Continent (Time zone)
 echo Known Proxy:		Does the target IP host a known proxy server ^(Yes/No^)
 echo Post Code:		Post code to the target IP's surrounding area
 echo Google Maps:		Google Maps link to view the IP's approximate location
