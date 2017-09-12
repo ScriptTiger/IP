@@ -52,7 +52,7 @@ Accuracy:               | Approximate accuracy of the target IP's location resul
 ----- ASN Data -----
 ASN Network:            | Network to which the target IP's covering ASN spans
 ASN:                    | Autonomous system number covering the target IP
-ISP:                    | The organization/ISP in control of the target IP's ASN
+ISP:                    | ISP controlling the target IP's covering ASN
 ----- Other Data -----
 Known Tor Exit:         | Does the target IP host a known Tor exit node (Yes/No)
 

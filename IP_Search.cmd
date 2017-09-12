@@ -277,7 +277,7 @@ echo.
 echo ----- ASN Data -----
 echo ASN Network:		Network to which the target IP's covering ASN spans
 echo ASN:			Autonomous system number covering the target IP
-echo ISP:			The organization/ISP in control of the target IP's ASN
+echo ISP:			ISP controlling the target IP's covering ASN
 echo.
 echo ----- Other Data -----
 echo Known Tor Exit:		Does the target IP host a known Tor exit node ^(Yes/No^)
