@@ -28,7 +28,33 @@ ja
 pt-BR  
 ru  
 zh-CN  
-Because GeoLite2 is the free product from MaxMind, the accuracy is obviously not going to be as good as the paid product, and neither are 100%. The only thing this search script CAN do with nearly 100% accuracy, assuming you have just recently run the Data_Update.cmd, is detect Tor nodes, as the Tor exit node list is provided directly from the Tor Project and is separate from the MaxMind data.
+Because GeoLite2 is the free product from MaxMind, the accuracy is obviously not going to be as good as the paid product, and neither are 100%. The only thing this search script CAN do with nearly 100% accuracy, assuming you have just recently run the Data_Update.cmd, is detect Tor nodes, as the Tor exit node list is provided directly from the Tor Project and is separate from the MaxMind data. The following is the current output of the script:
+
+Output Field            | Explanation
+------------------------|-------------------------------------------------------------------------------------------------------
+----- WAN Data -----
+WAN:                    | Target IP's parent wide area network
+Continent:              | Continent on which the target IP resides
+Country:                | Country in which the target IP resides
+Subdivisin 1:           | Major subdivision in which the target IP resides
+Subdivisin 2:           | Minor subdivision in which the target IP resides
+City:                   | City in which the target IP resides
+Metro Code:             | Metro code to the target IP's surrounding area
+Time Zone:              | Time zone of the target IP's surrounding area
+Registered Country:     | Country to which the target IP is registered
+------------------------| Displayed as: Country, Continent (Time zone)
+Represented Country:    | Foreign national representation possessing the IP
+------------------------| Displayed as: Country, Continent (Time zone)
+Known Proxy:            | Does the target IP host a known proxy server (Yes/No)
+Post Code:              | Post code to the target IP's surrounding area
+Google Maps:            | Google Maps link to view the IP's approximate location
+Accuracy:               | Approximate accuracy of the target IP's location results
+----- ASN Data -----
+ASN Network:            | Network to which the target IP's covering ASN spans
+ASN:                    | Autonomous system number covering the target IP
+ISP:                    | The organization/ISP in control of the target IP's ASN
+----- Other Data -----
+Known Tor Exit:         | Does the target IP host a known Tor exit node (Yes/No)
 
 Data_Update.cmd:  
 Will automatically download the latest GeoLite2 and Tor exit node list to the Data subdirectory:  
