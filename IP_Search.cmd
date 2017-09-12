@@ -8,6 +8,17 @@ rem https://github.com/ScriptTiger/IP
 rem =====
 
 rem =====
+rem Parameters for Help
+rem =====
+
+if /i "%~1"=="help" goto Help
+if /i "%~1"=="/help" goto Help
+if /i "%~1"=="--help" goto Help
+if "%~1"=="?" goto Help
+if "%~1"=="/?" goto Help
+if "%~1"=="--?" goto Help
+
+rem =====
 rem Environmental setup
 rem =====
 
@@ -238,4 +249,34 @@ if not "%~2"=="" if not "%~2"=="\Null\" (
 	set DATA=!DATA:\CloseParantheses\=^)!
 	echo %~1!DATA!
 )
+exit /b
+
+rem =====
+rem Help
+rem =====
+
+:Help
+echo ----- WAN Data -----
+echo WAN:			Target IP's parent wide area network
+echo Continent:		Continent on which the target IP resides
+echo Country:		Country in which the target IP resides
+echo Subdivisin 1:		Major subdivision in which the target IP resides
+echo Subdivisin 2:		Minor subdivision in which the target IP resides
+echo City:			City in which the target IP resides
+echo Metro Code:		Metro code to the target IP's surrounding area
+echo Time Zone:		Time zone of the target IP's surrounding area
+echo Registered Country:	Country to which the target IP is registered
+echo Represented Country:	Foreign national representation possessing the IP
+echo Known Proxy:		Does the target IP host a known proxy server ^(Yes/No^)
+echo Post Code:		Post code to the target IP's surrounding area
+echo Google Maps:		Google Maps link to view the IP's approximate location
+echo Accuracy:		Approximate accuracy of the target IP's location results
+echo.
+echo ----- ASN Data -----
+echo ASN Network:		Network to which the target IP's covering ASN spans
+echo ASN:			Autonomous system number covering the target IP
+echo ISP:			The organization/ISP in control of the target IP's ASN
+echo.
+echo ----- Other Data -----
+echo Known Tor Exit:		Does the target IP host a known Tor exit node ^(Yes/No^)
 exit /b

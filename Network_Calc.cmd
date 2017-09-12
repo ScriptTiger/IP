@@ -7,18 +7,24 @@ rem Or visit the following URL for the latest information on this ScriptTiger sc
 rem https://github.com/ScriptTiger/IP
 rem =====
 
-setlocal ENABLEDELAYEDEXPANSION
-
-set CALC=%~dp0Script_Calc.cmd
-
 rem =====
 rem Parameters for Help
 rem =====
 
-if /i "%1"=="/help" goto Help
-if /i "%1"=="--help" goto Help
-if "%1"=="/?" goto Help
-if "%1"=="--?" goto Help
+if /i "%~1"=="help" goto Help
+if /i "%~1"=="/help" goto Help
+if /i "%~1"=="--help" goto Help
+if "%~1"=="?" goto Help
+if "%~1"=="/?" goto Help
+if "%~1"=="--?" goto Help
+
+rem =====
+rem Environmental setup
+rem =====
+
+setlocal ENABLEDELAYEDEXPANSION
+
+set CALC=%~dp0Script_Calc.cmd
 
 rem =====
 rem Convert to string using decimal
