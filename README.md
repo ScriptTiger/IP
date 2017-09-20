@@ -67,8 +67,11 @@ http://www.maxmind.com
 
 The GeoLite2 databases are distributed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 
+You can download this repo from the below link to get started:  
+https://github.com/ScriptTiger/IP/archive/master.zip
+
 If you would like to show your support for ScriptTiger, check out the Patreon page to find out how:  
 https://www.patreon.com/ScriptTiger
 
-You can download this repo from the below link to get started:  
-https://github.com/ScriptTiger/IP/archive/master.zip
+For more ScriptTiger scripts and goodies, check out ScriptTiger's GitHub Pages website:  
+https://scripttiger.github.io/
