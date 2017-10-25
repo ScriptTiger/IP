@@ -99,7 +99,7 @@ rem =====
 
 echo ----- Other Data -----
 set TOR=No
-for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP%" "%TOR4%"') do set TOR=Yes
+for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP% " "%TOR4%"') do set TOR=Yes
 echo Known Tor Exit:		!TOR!
 echo.
 
