@@ -184,7 +184,7 @@ for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
 	call :Format_String %%b
 	for /f "tokens=1,3,10 delims={}" %%0 in ('echo !DATA!') do (
 		set DATA=%%~1, %%~0
-		if not "%%~2"=="" set DATA=!DATA! \OpenParantheses\%%~2\CloseParantheses\
+		if not "%%~2"=="\Null\" set DATA=!DATA! \OpenParantheses\%%~2\CloseParantheses\
 		call :Display "%~2 Country:	" "!DATA!"
 	)
 )

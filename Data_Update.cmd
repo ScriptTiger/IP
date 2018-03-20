@@ -7,34 +7,51 @@ rem Or visit the following URL for the latest information on this ScriptTiger sc
 rem https://github.com/ScriptTiger/IP
 rem =====
 
-set CURL=http://geolite.maxmind.com/download/geoip/database/GeoLite2-City-CSV.zip
-set AURL=http://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip
+set MM=http://geolite.maxmind.com/download/geoip/database
+set CITY=GeoLite2-City-CSV.zip
+set CURL=%MM%/GeoLite2-City-CSV.zip
+set ASN=GeoLite2-ASN-CSV.zip
+set AURL=%MM%/GeoLite2-ASN-CSV.zip
 set TURL=https://check.torproject.org/exit-addresses
-set PREFIX=%~dps0Data
-set WGET=%~dps0wget\x%PROCESSOR_ARCHITECTURE:~-2%\wget.exe -nv --show-progress -P %PREFIX%
+set DATA=%~dps0Data
+set CITY=%DATA%\%CITY%
+set ASN=%DATA%\%ASN%
+set TOR=%DATA%\exit-addresses
 set ZA=%~dps07za\7za.exe
-set IN=%PREFIX%\GeoLite2-*.zip
+set IN=%DATA%\GeoLite2-*.zip
+
+set BITS=0
+bitsadmin /list > nul && set /a BITS=%BITS%+1
+powershell get-bitstransfer > nul && set /a BITS=%BITS%+2
+if %BITS% geq 2 (
+	set BITS_FROM=powershell Start-BitsTransfer -source
+	set BITS_TO= -destination
+)
+if %BITS%==1 (
+	set BITS_FROM=bitsadmin /transfer "" 
+	set BITS_TO=
+)
 
 echo Downloading archives...
 
 :Download_City
-%WGET% %CURL% || goto Download_City
+%BITS_FROM% %CURL% %BITS_TO% "%CITY%" || goto Download_City
 
 :Download_ASN
-%WGET% %AURL% || goto Download_ASN
+%BITS_FROM% %AURL% %BITS_TO% "%ASN%" || goto Download_ASN
 
 echo Deleting old Tor list...
 
-del "%PREFIX%\exit-addresses"
+del "%TOR%"
 
 echo Downloading new Tor list...
 
 :Download_Tor
-%WGET% %TURL% || goto Download_Tor
+%BITS_FROM% %TURL% %BITS_TO% "%TOR%" || goto Download_Tor
 
 echo Extracting archives...
 
-%ZA% e -O%PREFIX% -y %IN% > nul
+%ZA% e -O%DATA% -y %IN% > nul
 
 echo Deleting archives...
 
