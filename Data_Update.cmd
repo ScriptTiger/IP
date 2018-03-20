@@ -31,6 +31,11 @@ if %BITS%==1 (
 	set BITS_FROM=bitsadmin /transfer "" 
 	set BITS_TO=
 )
+if %BITS%==0 (
+	echo This script requires BITS to be installed
+	pause
+	exit
+)
 
 echo Downloading archives...
 
@@ -56,3 +61,6 @@ echo Extracting archives...
 echo Deleting archives...
 
 del %IN%
+
+echo Update complete
+pause
