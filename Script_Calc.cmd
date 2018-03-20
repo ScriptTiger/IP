@@ -8,7 +8,7 @@ rem https://github.com/ScriptTiger/IP
 rem =====
 
 setlocal ENABLEDELAYEDEXPANSION
-set bdat=C:\Users\user\Desktop\scripts\logs\bits.dat
+set bdat=%temp%\bits.dat
 set label=%1
 if not "%3"=="" goto !label:~1!
 if "!label:~,1!"=="/" set external=1&shift&goto !label:~1!
