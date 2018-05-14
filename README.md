@@ -1,8 +1,5 @@
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/ScriptTiger)
 
-**ScriptTiger is currently sponsoring a verified charitable cause for a family in need living in Indonesia. Please visit the following link to read more, and please share it, like it, and, if you feel so led, contribute to the cause.
-http://gf.me/u/hv2dbu**
-
 # IP
 Tired of paying a subscription service to access an API to resolve geoIP data? Look no further! Resolving locally and maintaining your own database is easier than ever. This repo is everything IP: 32-bit/128-bit calculations, ping monitoring across multiple nodes, IPv4/IPv6 network calculations, geoip lookups.
 
