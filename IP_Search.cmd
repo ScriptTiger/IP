@@ -36,6 +36,16 @@ rem Set default mode as interactive
 set INTERACTIVE=1
 
 rem =====
+rem Unattended mode parameters
+rem =====
+
+set UM=0
+if "%~1"=="csv" (
+	set UM=1
+	if not "%~3"=="" set CSV=%~3
+)
+
+rem =====
 rem Set language preference
 rem =====
 
@@ -58,6 +68,7 @@ if "%~1"=="" (
 	if !errorlevel!==7 set LANG=ru
 	if !errorlevel!==8 set LANG=zh-CN
 ) else set LANG=%~1
+set LANG=%LANG:csv=en%
 set LANG=%DATA%\GeoLite2-City-Locations-%LANG%.csv
 
 rem =====
@@ -83,23 +94,35 @@ rem =====
 rem Search city data for any of the possible networks
 rem =====
 
-echo ----- WAN Data -----
+if %UM%==0 echo ----- WAN Data -----
 call :Find "%FINDSTR%" "%CITY4%" CITY
 
 rem =====
 rem Search ASN data for any of the possible networks
 rem =====
 
-echo ----- ASN Data -----
+if %UM%==0 echo ----- ASN Data -----
 call :Find "%FINDSTR%" "%ASN4%" ASN
 
 rem =====
 rem Search Tor exit nodes to see if the IP is listed
 rem =====
 
-echo ----- Other Data -----
-set TOR=No
-for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP% " "%TOR4%"') do set TOR=Yes
+if %UM%==0 echo ----- Other Data -----
+set TOR=0
+for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP% " "%TOR4%"') do set TOR=1
+
+rem =====
+rem Output either the finished CSV output or display Tor results
+rem =====
+
+if %UM%==1 (
+	call :Output "" "1:%IP%,%UMSTR%,20:%TOR%"
+	exit /b
+)
+
+set TOR=%TOR:0=No%
+set TOR=%TOR:1=Yes%
 echo Known Tor Exit:		!TOR!
 echo.
 
@@ -137,21 +160,26 @@ rem Display matching city data
 rem =====
 
 :City
-set URL=
 if not "%*"=="" (
 	for /f "tokens=1,2,3,4,5,7,8,9,10 delims={}" %%0 in ('echo %*') do (
-		call :Display "WAN:			" "%%~0"
-		if not "%%~1"=="\Null\" call :Resolve_City %%~1
-		if not "%%~2"=="\Null\" call :Resolve_Country %%~2 Registered
-		if not "%%~3"=="\Null\" call :Resolve_Country %%~3 Represented
-		if "%%~4"=="0" (call :Display "Known Proxy:		" "No") else call :Display "Known Proxy:		" "Yes"
-		call :Display "Post Code:		" "%%~5"
-		if not "%%~6"=="\Null\" if not "%%~7"=="\Null\" (
-			set URL=https://www.google.com/maps/@%%~6,%%~7,6z
-			call :Display "Google Maps:		" "!URL!"
+		if %UM%==0 (
+			call :Output "WAN:			" "%%~0"
+			if not "%%~1"=="\Null\" call :Resolve_City %%~1
+			if not "%%~2"=="\Null\" call :Resolve_Country %%~2 Registered
+			if not "%%~3"=="\Null\" call :Resolve_Country %%~3 Represented
+			if "%%~4"=="0" (call :Output "Known Proxy:		" "No") else call :Output "Known Proxy:		" "Yes"
+			call :Output "Post Code:		" "%%~5"
+			SET URL=
+			if not "%%~6"=="\Null\" if not "%%~7"=="\Null\" (
+				set URL=https://www.google.com/maps/@%%~6,%%~7,6z
+				call :Output "Google Maps:		" "!URL!"
+			)
+			if not "%%~8"=="" call :Output "Accuracy:		" "%%~8 km"
+			echo.
+		) else (
+			set UMSTR=2:%%~0,3:%%~1,4:%%~2,5:%%~3,6:%%~4,7:%%~5,8:%%~6,9:%%~7,10:%%~8
+			call :Resolve_City_CSV %%~1
 		)
-		if not "%%~8"=="" call :Display "Accuracy:		" "%%~8 km"
-		echo.
 	)
 )
 exit /b
@@ -161,18 +189,36 @@ rem Resolve and break down city strings
 rem =====
 
 :Resolve_City
-for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
+for /f "tokens=3* delims=," %%a in ('findstr /b /l "%~1," "%LANG%"') do (
 	call :Format_String %%b
-	for /f "tokens=1,3,5,7,8,9,10 delims={}" %%0 in ('echo !DATA!') do (
-		call :Display "Continent:		" "%%~0"
-		call :Display "Country:		" "%%~1"
-		call :Display "Subdivisin 1:		" "%%~2"
-		call :Display "Subdivisin 2:		" "%%~3"
-		call :Display "City:			" "%%~4"
-		call :Display "Metro Code:		" "%%~5"
-		call :Display "Time Zone:		" "%%~6"
+	for /f "tokens=1,3,5,7,8,9,10,11 delims={}" %%0 in ('echo !DATA!') do (
+		call :Output "Continent:		" "%%~0"
+		call :Output "Country:		" "%%~1"
+		call :Output "Subdivisin 1:		" "%%~2"
+		call :Output "Subdivisin 2:		" "%%~3"
+		call :Output "City:			" "%%~4"
+		call :Output "Metro Code:		" "%%~5"
+		call :Output "Time Zone:		" "%%~6"
+		set DATA=%%~7
+		set DATA=!DATA:0=No!
+		set DATA=!DATA:1=Yes!
+		Call :Output "EU:			" "!DATA!"
 	)
 )
+exit /b
+
+rem =====
+rem Resolve city CSV string
+rem =====
+
+:Resolve_City_CSV
+for /f "tokens=2* delims=," %%a in ('findstr /b /l "%~1," "%LANG%"') do (
+	call :Format_String %%b
+	for /f "tokens=1,3,5,7,10,11,12 delims={}" %%0 in ('echo !DATA!') do (
+		set UMSTR=%UMSTR%,11:%%0,12:%%1,13:%%2,14:%%3,15:%%4,16:%%5,17:%%6
+	)
+)
+
 exit /b
 
 rem =====
@@ -180,12 +226,12 @@ rem Resolve and break down country strings
 rem =====
 
 :Resolve_Country
-for /f "tokens=3* delims=," %%a in ('findstr /b "%~1," "%LANG%"') do (
+for /f "tokens=3* delims=," %%a in ('findstr /b /l "%~1," "%LANG%"') do (
 	call :Format_String %%b
 	for /f "tokens=1,3,10 delims={}" %%0 in ('echo !DATA!') do (
 		set DATA=%%~1, %%~0
 		if not "%%~2"=="\Null\" set DATA=!DATA! \OpenParantheses\%%~2\CloseParantheses\
-		call :Display "%~2 Country:	" "!DATA!"
+		call :Output "%~2 Country:	" "!DATA!"
 	)
 )
 exit /b
@@ -197,10 +243,12 @@ rem =====
 :ASN
 if not "%*"=="" (
 	for /f "tokens=1,2,3 delims={}" %%0 in ('echo %*') do (
-		call :Display "ASN Network:		" "%%~0"
-		call :Display "ASN:			" "%%~1"
-		call :Display "ISP:			" "%%~2"
-		echo.
+		if %UM%==0 (
+			call :Output "ASN Network:		" "%%~0"
+			call :Output "ASN:			" "%%~1"
+			call :Output "ISP:			" "%%~2"
+			echo.
+		) else set UMSTR=%UMSTR%,18:%%~0,19:%%~1
 	)
 )
 exit /b
@@ -236,10 +284,10 @@ shift
 goto Format_SubStrings
 
 rem =====
-rem Reinterpret punctuation and display data
+rem Reinterpret punctuation and output data
 rem =====
 
-:Display
+:Output
 if not "%~2"=="" if not "%~2"=="\Null\" (
 	set DATA=%~2
 	set DATA=!DATA:\Ampersand\=^&!
@@ -247,7 +295,10 @@ if not "%~2"=="" if not "%~2"=="\Null\" (
 	set DATA=!DATA:\Comma\=^,!
 	set DATA=!DATA:\OpenParantheses\=^(!
 	set DATA=!DATA:\CloseParantheses\=^)!
-	echo %~1!DATA!
+	if %UM%==1 set DATA=!DATA:\Null\=!
+	if "%CSV%"=="" (
+		echo %~1!DATA!
+	) else echo %~1!DATA!>>"%CSV%"
 )
 exit /b
 
@@ -265,6 +316,7 @@ echo Subdivisin 2:		Minor subdivision in which the target IP resides
 echo City:			City in which the target IP resides
 echo Metro Code:		Metro code to the target IP's surrounding area
 echo Time Zone:		Time zone of the target IP's surrounding area
+echo EU:			Is the target IP in the EU ^(Yes/No^)
 echo Registered Country:	Country to which the target IP is registered
 echo				Displayed as: Country, Continent (Time zone)
 echo Represented Country:	Foreign national representation possessing the IP

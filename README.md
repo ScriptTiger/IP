@@ -18,9 +18,12 @@ Currently only calculates IPv4. Since IPv4 addresses take up exactly 32 bits, th
 Note: The reverse IP address decimal conversion (/d /r) intentionally stays within 32-bit limitations to be able to convert to various executable output that stores data as a reverse 32-bit number (i.e. NirSoft/Nir Sofer INI files). The forward decimal conversion is useful for various lookup tables that list networks in decimal (i.e. GeoLite2's optional decimal format).
 
 IP_Search:  
-Currently only supports searching IPv4 addresses. Thanks to MaxMind, non-numerical data has multilingual support! You can also use this script both interactively and scripted. For scripted searches, just send the language and IP to search for to the script like this:  
-IP_Search.cmd en 8.8.8.8  
-The above command will search for 8.8.8.8 (Google DNS) and output the results in English.
+Currently only supports searching IPv4 addresses. Thanks to MaxMind, non-numerical data has multilingual support! You can also use this script both interactively and scripted. For scripted searches with pretty output, just send the language and IP to search for to the script like this:  
+`IP_Search.cmd en 8.8.8.8`  
+The above command will search for 8.8.8.8 (Google DNS) and output the results in English.  
+For scripted searches in CSV format:  
+`IP_Search.cmd csv 8.8.8.8 C:\SomeFile.csv`  
+The above command will search for 8.8.8.8 (Google DNS) and output the results in CSV format to the file C:\SomeFile.csv. You can optionally not specify a file name to allow output to the console.  
 Language options are as follows:  
 de  
 en  
@@ -43,6 +46,7 @@ Subdivisin 2:           | Minor subdivision in which the target IP resides
 City:                   | City in which the target IP resides
 Metro Code:             | Metro code to the target IP's surrounding area
 Time Zone:              | Time zone of the target IP's surrounding area
+EU:                     | Is the target IP in the EU (Yes/No)
 Registered Country:     | Country to which the target IP is registered
 ------------------------| Displayed as: Country, Continent (Time zone)
 Represented Country:    | Foreign national representation possessing the IP

@@ -63,4 +63,4 @@ echo Deleting archives...
 del %IN%
 
 echo Update complete
-pause
+if not "%1"=="/q" pause
