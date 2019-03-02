@@ -298,7 +298,9 @@ if not "%~2"=="" if not "%~2"=="\Null\" (
 	if %UM%==1 set DATA=!DATA:\Null\=!
 	if "%CSV%"=="" (
 		echo %~1!DATA!
-	) else echo %~1!DATA!>>"%CSV%"
+	) else (
+		if not exist "%CSV%" echo ip_address,city_network,geoname_id,registered_country_geoname_id,represented_country_geoname_id,is_anonymous_proxy,postal_code,latitude,longitude,accuracy_radius,continent_code,country_iso_code,subdivision_1_iso_code,subdivision_2_iso_code,metro_code,time_zone,is_in_european_union,asn_network,autonomous_system_number,is_tor_node>"%CSV%"
+		echo %~1!DATA!>>"%CSV%"
 )
 exit /b
 
