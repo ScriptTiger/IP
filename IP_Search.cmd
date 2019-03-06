@@ -117,7 +117,7 @@ rem Output either the finished CSV output or display Tor results
 rem =====
 
 if %UM%==1 (
-	call :Output "" "1:%IP%,%UMSTR%,20:%TOR%"
+	call :Output "" "A:%IP%,%UMSTR%,T:%TOR%"
 	exit /b
 )
 
@@ -177,7 +177,7 @@ if not "%*"=="" (
 			if not "%%~8"=="" call :Output "Accuracy:		" "%%~8 km"
 			echo.
 		) else (
-			set UMSTR=2:%%~0,3:%%~1,4:%%~2,5:%%~3,6:%%~4,7:%%~5,8:%%~6,9:%%~7,10:%%~8
+			set UMSTR=B:%%~0,C:%%~1,D:%%~2,E:%%~3,F:%%~4,G:%%~5,H:%%~6,I:%%~7,J:%%~8
 			call :Resolve_City_CSV %%~1
 		)
 	)
@@ -215,7 +215,7 @@ rem =====
 for /f "tokens=2* delims=," %%a in ('findstr /b /l "%~1," "%LANG%"') do (
 	call :Format_String %%b
 	for /f "tokens=1,3,5,7,10,11,12 delims={}" %%0 in ('echo !DATA!') do (
-		set UMSTR=%UMSTR%,11:%%0,12:%%1,13:%%2,14:%%3,15:%%4,16:%%5,17:%%6
+		set UMSTR=%UMSTR%,K:%%0,L:%%1,M:%%2,N:%%3,O:%%4,P:%%5,Q:%%6
 	)
 )
 
@@ -248,7 +248,7 @@ if not "%*"=="" (
 			call :Output "ASN:			" "%%~1"
 			call :Output "ISP:			" "%%~2"
 			echo.
-		) else set UMSTR=%UMSTR%,18:%%~0,19:%%~1
+		) else set UMSTR=%UMSTR%,R:%%~0,S:%%~1
 	)
 )
 exit /b
