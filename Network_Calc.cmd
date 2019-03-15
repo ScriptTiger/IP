@@ -13,9 +13,11 @@ rem =====
 
 if /i "%~1"=="help" goto Help
 if /i "%~1"=="/help" goto Help
+if /i "%~1"=="-help" goto Help
 if /i "%~1"=="--help" goto Help
 if "%~1"=="?" goto Help
 if "%~1"=="/?" goto Help
+if "%~1"=="-?" goto Help
 if "%~1"=="--?" goto Help
 
 rem =====
@@ -66,7 +68,10 @@ rem =====
 rem Interactive mode
 rem =====
 
-if not "%1"=="" goto Calc
+if not "%1"=="" (
+	set IM=0
+	goto Calc
+) else set IM=1
 
 :Input
 set /p IP=IP address: || exit /b
@@ -117,7 +122,7 @@ for /f "tokens=1,2 delims=/ " %%0 in ("%1 %2") do (
 	echo !ID!/!CIDR! - !BCAST!
 	echo !START! - !END! ^(!HOSTS! usable IPs^)
 )
-pause
+if %IM%==1 pause
 exit /b
 
 rem =====

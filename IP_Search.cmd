@@ -13,9 +13,11 @@ rem =====
 
 if /i "%~1"=="help" goto Help
 if /i "%~1"=="/help" goto Help
+if /i "%~1"=="-help" goto Help
 if /i "%~1"=="--help" goto Help
 if "%~1"=="?" goto Help
 if "%~1"=="/?" goto Help
+if "%~1"=="-?" goto Help
 if "%~1"=="--?" goto Help
 
 rem =====
