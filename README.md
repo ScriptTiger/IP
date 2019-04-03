@@ -5,7 +5,7 @@ Tired of paying a subscription service to access an API to resolve geoIP data? L
 
 Using bitwise and otherwise calculations of numbers 32 bits and higher in a 32-bit environment to calculate 32-bit IPv4 and 128-bit IPv6 network information.
 
-7-Zip is also a component to this project licensed separately in accordance with its attached documentation.
+7-Zip and wget are also components to this project licensed separately in accordance with their attached documentation.
 
 Ping_Test:  
 Monitor continuous ping statistics across a series of nodes.
