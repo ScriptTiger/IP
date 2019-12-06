@@ -11,9 +11,11 @@ set MM=http://geolite.maxmind.com/download/geoip/database
 set CURL=%MM%/GeoLite2-City-CSV.zip
 set AURL=%MM%/GeoLite2-ASN-CSV.zip
 set TURL=https://check.torproject.org/exit-addresses
+set AVURL=http://reputation.alienvault.com/reputation.data
 set DATA=%~dps0Data
 set TOR=%DATA%\exit-addresses
 set IN=%DATA%\GeoLite2-*.zip
+set AV=%DATA%\reputation.data
 
 if "%PROCESSOR_ARCHITECTURE%"=="" (set ARCH=x86) else (set ARCH=%PROCESSOR_ARCHITECTURE:~-2%)
 
@@ -36,6 +38,15 @@ echo Downloading new Tor list...
 
 :Download_Tor
 %WGET% %TURL% || goto Download_Tor
+
+echo Deleting old AlienVault data...
+
+if exist "%AV%" del "%AV%"
+
+echo Downloading new AlienVault data...
+
+:Download_AV
+%WGET% %AVURL% || goto Download_AV
 
 echo Extracting archives...
 

@@ -1,5 +1,6 @@
 # Data files
 exit-addresses
+reputation.data
 .wget-hsts
 *.csv
 *.txt

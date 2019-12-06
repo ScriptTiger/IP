@@ -32,6 +32,7 @@ set CITY6=%DATA%\GeoLite2-City-Blocks-IPv6.csv
 set ASN4=%DATA%\GeoLite2-ASN-Blocks-IPv4.csv
 set ASN6=%DATA%\GeoLite2-ASN-Blocks-IPv6.csv
 set TOR4=%DATA%\exit-addresses
+set AV=%DATA%\reputation.data
 set NETCALC=%~dp0Network_Calc.cmd
 
 rem Set default mode as interactive
@@ -107,26 +108,45 @@ if %UM%==0 echo ----- ASN Data -----
 call :Find "%FINDSTR%" "%ASN4%" ASN
 
 rem =====
+rem Search AlienVault data
+rem =====
+
+if %UM%==0 (
+	for /f "tokens=2,3,4,5,6,7 delims=#" %%0 in ('findstr /b /l /c:"%IP%#" "%AV%"') do (
+		set URL=https://www.google.com/maps/@%%5,6z
+		echo ----- AlienVault Data -----
+		echo				%%0
+		echo				%%1
+		echo				%%2
+		echo Country:		%%3
+		echo City:			%%4
+		echo Google Maps:		!URL!
+		echo.
+	)
+)
+
+rem =====
 rem Search Tor exit nodes to see if the IP is listed
 rem =====
 
-if %UM%==0 echo ----- Other Data -----
 set TOR=0
 for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP% " "%TOR4%"') do set TOR=1
+if %UM%==0 (
+	set TOR=!TOR:0=No!
+	set TOR=!TOR:1=Yes!
+	echo ----- Other Data -----
+	echo Known Tor Exit:		!TOR!
+	echo.
+)
 
 rem =====
-rem Output either the finished CSV output or display Tor results
+rem Output the finished CSV output
 rem =====
 
 if %UM%==1 (
 	call :Output "" "A:%IP%,%UMSTR%,T:%TOR%"
 	exit /b
 )
-
-set TOR=%TOR:0=No%
-set TOR=%TOR:1=Yes%
-echo Known Tor Exit:		!TOR!
-echo.
 
 rem =====
 rem Offer to open Google Maps locaction and prompt for a new IP if in interactive mode, otherwise exit
