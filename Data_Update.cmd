@@ -7,9 +7,22 @@ rem Or visit the following URL for the latest information on this ScriptTiger sc
 rem https://github.com/ScriptTiger/IP
 rem =====
 
-set MM=http://geolite.maxmind.com/download/geoip/database
-set CURL=%MM%/GeoLite2-City-CSV.zip
-set AURL=%MM%/GeoLite2-ASN-CSV.zip
+set LKT=%~dps0license_key.txt
+
+if exist %LKT% (
+	set /p MML=<%LKT%
+) else (
+	echo You currently don't have a MaxMind license key configured.
+	echo Please visit the following address to obtain a key:
+	echo https://www.maxmind.com/en/my_license_key
+	set /p MML=MaxMind License Key: 
+)
+
+if not exist %LKT% echo %MML%>%LKT%
+
+set MM=https://download.maxmind.com/app/geoip_download?suffix=zip
+set CURL="%MM%&license_key=%MML%&edition_id=GeoLite2-City-CSV"
+set AURL="%MM%&license_key=%MML%&edition_id=GeoLite2-ASN-CSV"
 set TURL=https://check.torproject.org/exit-addresses
 set AVURL=http://reputation.alienvault.com/reputation.data
 set DATA=%~dps0Data
