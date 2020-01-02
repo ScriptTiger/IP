@@ -27,7 +27,7 @@ set TURL=https://check.torproject.org/exit-addresses
 set AVURL=http://reputation.alienvault.com/reputation.data
 set DATA=%~dps0Data
 set TOR=%DATA%\exit-addresses
-set IN=%DATA%\GeoLite2-*.zip
+set IN=%DATA%\geoip_download*-CSV
 set AV=%DATA%\reputation.data
 
 if "%PROCESSOR_ARCHITECTURE%"=="" (set ARCH=x86) else (set ARCH=%PROCESSOR_ARCHITECTURE:~-2%)
