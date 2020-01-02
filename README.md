@@ -63,10 +63,10 @@ ISP:                    | ISP controlling the target IP's covering ASN
 Known Tor Exit:         | Does the target IP host a known Tor exit node (Yes/No)
 
 Data_Update.cmd:  
-Will automatically download the latest GeoLite2 and Tor exit node list to the Data subdirectory:  
-http://geolite.maxmind.com/download/geoip/database/GeoLite2-City-CSV.zip  
-http://geolite.maxmind.com/download/geoip/database/GeoLite2-ASN-CSV.zip  
-https://check.torproject.org/exit-addresses
+Will automatically download the latest data from all sources to the Data subdirectory:  
+GeoLite2 (requires free or paid MaxMind license key from https://www.maxmind.com/en/my_license_key)  
+https://check.torproject.org/exit-addresses  
+http://reputation.alienvault.com/reputation.data
 
 These scripts reference using GeoLite2 data created by MaxMind, available from:  
 http://www.maxmind.com
