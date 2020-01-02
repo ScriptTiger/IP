@@ -13,7 +13,7 @@ if exist %LKT% (
 	set /p MML=<%LKT%
 ) else (
 	echo You currently don't have a MaxMind license key configured.
-	echo Please visit the following address to obtain a key:
+	echo Please visit the following address to obtain a free or paid key:
 	echo https://www.maxmind.com/en/my_license_key
 	set /p MML=MaxMind License Key: 
 )
