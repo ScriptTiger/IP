@@ -33,6 +33,7 @@ set ASN4=%DATA%\GeoLite2-ASN-Blocks-IPv4.csv
 set ASN6=%DATA%\GeoLite2-ASN-Blocks-IPv6.csv
 set TOR4=%DATA%\exit-addresses
 set AV=%DATA%\reputation.data
+set IPB=%DATA%\ip-blacklist
 set NETCALC=%~dp0Network_Calc.cmd
 
 rem Set default mode as interactive
@@ -126,16 +127,21 @@ if %UM%==0 (
 )
 
 rem =====
-rem Search Tor exit nodes to see if the IP is listed
+rem Search Tor exit nodes and Snort IP Blacklist to see if the IP is listed
 rem =====
 
 set TOR=0
 for /f %%0 in ('findstr /b /l /c:"ExitAddress %IP% " "%TOR4%"') do set TOR=1
+set BL=0
+for /f %%0 in ('findstr /x %IP% "%IPB%"') do set BL=1
 if %UM%==0 (
 	set TOR=!TOR:0=No!
 	set TOR=!TOR:1=Yes!
+	set BL=!BL:0=No!
+	set BL=!BL:1=Yes!
 	echo ----- Other Data -----
 	echo Known Tor Exit:		!TOR!
+	echo Blacklisted by Snort:	!BL!
 	echo.
 )
 
@@ -358,4 +364,5 @@ echo ISP:			ISP controlling the target IP's covering ASN
 echo.
 echo ----- Other Data -----
 echo Known Tor Exit:		Does the target IP host a known Tor exit node ^(Yes/No^)
+echo Blacklisted by Snort:	Is the target IP blacklisted by Snort ^(Yes/No^)
 exit /b

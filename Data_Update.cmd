@@ -25,10 +25,13 @@ set CURL="%MM%&license_key=%MML%&edition_id=GeoLite2-City-CSV"
 set AURL="%MM%&license_key=%MML%&edition_id=GeoLite2-ASN-CSV"
 set TURL=https://check.torproject.org/exit-addresses
 set AVURL=http://reputation.alienvault.com/reputation.data
+set IPBURL=https://talosintelligence.com/documents/ip-blacklist
 set DATA=%~dps0Data
 set TOR=%DATA%\exit-addresses
 set IN=%DATA%\geoip_download*-CSV
 set AV=%DATA%\reputation.data
+set IPB=ip-blacklist
+set IPBF=%DATA%\%IPB%
 
 if "%PROCESSOR_ARCHITECTURE%"=="" (set ARCH=x86) else (set ARCH=%PROCESSOR_ARCHITECTURE:~-2%)
 
@@ -60,6 +63,27 @@ echo Downloading new AlienVault data...
 
 :Download_AV
 %WGET% %AVURL% || goto Download_AV
+
+echo Deleting old Snort IP Blacklist...
+
+if exist "%IPBF%" del "%IPBF%"
+
+echo Downloading new Snort IP Blacklist...
+
+:Download_IPB
+%WGET% %IPBURL% || goto Download_IPB
+
+echo Converting Snort IP Blacklist to CRLF...
+
+if exist "%IPBF%.tmp" del "%IPBF%.tmp"
+
+(
+	for /f %%0 in ('type "%IPBF%"') do echo %%0
+) > "%IPBF%.tmp"
+
+del "%IPBF%"
+
+ren "%IPBF%.tmp" "%IPB%"
 
 echo Extracting archives...
 

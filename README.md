@@ -61,12 +61,14 @@ ASN:                    | Autonomous system number covering the target IP
 ISP:                    | ISP controlling the target IP's covering ASN
 ----- Other Data -----
 Known Tor Exit:         | Does the target IP host a known Tor exit node (Yes/No)
+Blacklisted by Snort:   | Is the target IP blacklisted by Snort (Yes/No)
 
 Data_Update.cmd:  
 Will automatically download the latest data from all sources to the Data subdirectory:  
 GeoLite2 (requires free or paid MaxMind license key from https://www.maxmind.com/en/my_license_key)  
 https://check.torproject.org/exit-addresses  
 http://reputation.alienvault.com/reputation.data
+https://talosintelligence.com/documents/ip-blacklist
 
 These scripts reference using GeoLite2 data created by MaxMind, available from:  
 http://www.maxmind.com
