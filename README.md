@@ -1,4 +1,4 @@
-[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/ScriptTiger)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/thescripttiger%40gmail.com)
 
 # IP
 Tired of paying a subscription service to access an API to resolve geoIP data? Look no further! Resolving locally and maintaining your own database is easier than ever. This repo is everything IP: 32-bit/128-bit calculations, ping monitoring across multiple nodes, IPv4/IPv6 network calculations, geoip lookups.
