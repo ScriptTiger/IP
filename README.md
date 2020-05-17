@@ -65,10 +65,11 @@ Blacklisted by Snort:   | Is the target IP blacklisted by Snort (Yes/No)
 
 Data_Update.cmd:  
 Will automatically download the latest data from all sources to the Data subdirectory:  
-GeoLite2 (requires free or paid MaxMind license key from https://www.maxmind.com/en/my_license_key)  
+GeoLite2 (requires free or paid MaxMind license key from https://www.maxmind.com/en/my_license_key written to license_key.txt in the same directory)  
 https://check.torproject.org/exit-addresses  
 http://reputation.alienvault.com/reputation.data  
 https://talosintelligence.com/documents/ip-blacklist
+
 
 These scripts reference using GeoLite2 data created by MaxMind, available from:  
 http://www.maxmind.com
