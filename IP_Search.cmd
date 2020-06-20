@@ -113,16 +113,21 @@ rem Search AlienVault data
 rem =====
 
 if %UM%==0 (
-	for /f "tokens=2,3,4,5,6,7 delims=#" %%0 in ('findstr /b /l /c:"%IP%#" "%AV%"') do (
-		set URL=https://www.google.com/maps/@%%5,6z
-		echo ----- AlienVault Data -----
-		echo				%%0
-		echo				%%1
-		echo				%%2
-		echo Country:		%%3
-		echo City:			%%4
-		echo Google Maps:		!URL!
-		echo.
+	for /f "tokens=*" %%0 in ('findstr /b /l /c:"%IP%#" "%AV%"') do (
+		set AVDATA=%%0
+		set AVDATA=!AVDATA:##=#""#!
+		for /f "tokens=2,3,4,5,6,7,8 delims=#" %%a in ('echo !AVDATA!') do (
+			set URL=https://www.google.com/maps/@%%~f,6z
+			echo ----- AlienVault Data -----
+			echo				%%~a
+			echo				%%~b
+			echo				%%~c
+			echo Country:		%%~d
+			echo City:			%%~e
+			echo Google Maps:		!URL!
+			echo				%%~g
+			echo.
+		)
 	)
 )
 
