@@ -41,9 +41,11 @@ set WGET="%~dps0wget\x%ARCH%\wget.exe" -nv --show-progress -P "%DATA%"
 echo Downloading archives...
 
 :Download_City
+timeout /t 15 /nobreak > nul
 %WGET% %CURL% || goto Download_City
 
 :Download_ASN
+timeout /t 15 /nobreak > nul
 %WGET% %AURL% || goto Download_ASN
 
 echo Deleting old Tor list...
@@ -53,6 +55,7 @@ if exist "%TOR%" del "%TOR%"
 echo Downloading new Tor list...
 
 :Download_Tor
+timeout /t 15 /nobreak > nul
 %WGET% %TURL% || goto Download_Tor
 
 echo Deleting old AlienVault data...
@@ -62,6 +65,7 @@ if exist "%AV%" del "%AV%"
 echo Downloading new AlienVault data...
 
 :Download_AV
+timeout /t 15 /nobreak > nul
 %WGET% %AVURL% || goto Download_AV
 
 echo Deleting old Snort IP Blacklist...
@@ -71,6 +75,7 @@ if exist "%IPBF%" del "%IPBF%"
 echo Downloading new Snort IP Blacklist...
 
 :Download_IPB
+timeout /t 15 /nobreak > nul
 %WGET% %IPBURL% || goto Download_IPB
 
 echo Converting Snort IP Blacklist to CRLF...
