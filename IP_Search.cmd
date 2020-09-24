@@ -33,7 +33,7 @@ set ASN4=%DATA%\GeoLite2-ASN-Blocks-IPv4.csv
 set ASN6=%DATA%\GeoLite2-ASN-Blocks-IPv6.csv
 set TOR4=%DATA%\exit-addresses
 set AV=%DATA%\reputation.data
-set IPB=%DATA%\ip-blacklist
+set IPB=%DATA%\ip-block-list
 set NETCALC=%~dp0Network_Calc.cmd
 
 rem Set default mode as interactive

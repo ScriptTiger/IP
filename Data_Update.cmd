@@ -25,12 +25,12 @@ set CURL="%MM%&license_key=%MML%&edition_id=GeoLite2-City-CSV"
 set AURL="%MM%&license_key=%MML%&edition_id=GeoLite2-ASN-CSV"
 set TURL=https://check.torproject.org/exit-addresses
 set AVURL=http://reputation.alienvault.com/reputation.data
-set IPBURL=https://talosintelligence.com/documents/ip-blacklist
+set IPBURL=https://www.snort.org/downloads/ip-block-list
 set DATA=%~dps0Data
 set TOR=%DATA%\exit-addresses
 set IN=%DATA%\geoip_download*-CSV
 set AV=%DATA%\reputation.data
-set IPB=ip-blacklist
+set IPB=ip-block-list
 set IPBF=%DATA%\%IPB%
 
 if "%PROCESSOR_ARCHITECTURE%"=="" (set ARCH=x86) else (set ARCH=%PROCESSOR_ARCHITECTURE:~-2%)

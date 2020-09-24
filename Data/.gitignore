@@ -1,7 +1,7 @@
 # Data files
 exit-addresses
 reputation.data
-ip-blacklist
+ip-block-list
 .wget-hsts
 *.csv
 *.txt
