@@ -154,12 +154,12 @@ exit /b
 if "%2"=="/r" shift
 call :StrToSubStr %2
 if "%1"=="/r" (
-	set /a %0="!SubStr1!+(!SubStr2!<<8)+(!SubStr3!<<16)+(!SubStr4!<<24)"
+	set /a %0="!SubStr1!|(!SubStr2!<<8)|(!SubStr3!<<16)|(!SubStr4!<<24)"
 ) else (
 	if "%2"=="128.0.0.0" (
 		set %1=0x80000000
 	) else (
-		set /a %1="(!SubStr1!<<24)+(!SubStr2!<<16)+(!SubStr3!<<8)+!SubStr4!"
+		set /a %1="(!SubStr1!<<24)|(!SubStr2!<<16)|(!SubStr3!<<8)|!SubStr4!"
 	)
 )
 exit /b
@@ -171,7 +171,7 @@ rem =====
 :CIDRToRMask
 set RMASK=0
 set /a RCIDR=32-%1
-for /l %%a in (1,1,!RCIDR!) do set /a RMASK="(!RMASK!<<1)+1"
+for /l %%a in (1,1,!RCIDR!) do set /a RMASK="(!RMASK!<<1)|1"
 call :DecToStr RMASK !RMASK!
 exit /b
 
