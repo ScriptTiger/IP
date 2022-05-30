@@ -1,5 +1,9 @@
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/thescripttiger%40gmail.com)
 
+**If you find these scripts useful, you may also be interested in checking out the reference implementation in the goIP repository, which contains much of the same functionality ported to Go and compiled to binaries for much faster results, as well as a REST API available for IP queries.  
+goIP Reference Implementation: https://github.com/ScriptTiger/goIP/tree/main/ref  
+goIP Binary Downloads: https://github.com/ScriptTiger/goIP/releases**
+
 # IP
 Tired of paying a subscription service to access an API to resolve geoIP data? Look no further! Resolving locally and maintaining your own database is easier than ever. This repo is everything IP: 32-bit/128-bit calculations, ping monitoring across multiple nodes, IPv4/IPv6 network calculations, geoip lookups.
 
