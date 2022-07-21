@@ -1,4 +1,4 @@
-[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/thescripttiger%40gmail.com)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://docs.google.com/forms/d/e/1FAIpQLSfBEe5B_zo69OBk19l3hzvBmz3cOV6ol1ufjh0ER1q3-xd2Rg/viewform)
 
 **If you find these scripts useful, you may also be interested in checking out the reference implementation in the goIP repository, which contains much of the same functionality ported to Go and compiled to binaries for much faster results, as well as a REST API available for IP queries.  
 goIP Reference Implementation: https://github.com/ScriptTiger/goIP/tree/main/ref  
