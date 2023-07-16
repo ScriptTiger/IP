@@ -2,9 +2,9 @@
 
 **If you find these scripts useful, you may also be interested in checking out the reference implementation in the goIP repository, which contains much of the same functionality ported to Go and compiled to binaries for much faster results, as well as a REST API available for IP queries.  
 goIP Reference Implementation: https://github.com/ScriptTiger/goIP/tree/main/ref  
-goIP Binary Downloads: https://github.com/ScriptTiger/goIP/releases
+goIP Binary Downloads: https://github.com/ScriptTiger/goIP/releases**
 
-There is also a Java GUI client available as a front end for the REST API:  
+**There is also a Java GUI client available as a front end for the REST API:  
 GeoIP: https://github.com/ScriptTiger/GeoIP  
 GeoIP Downloads: https://github.com/ScriptTiger/GeoIP/releases**
 
